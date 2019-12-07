@@ -1,6 +1,7 @@
 Typeclasses
 ===========
-1. Dec 7th 2019 - Initial
+
+Dec 7th 2019 - Initial
 
 GHCi, version 8.6.5
 
