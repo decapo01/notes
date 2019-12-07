@@ -32,6 +32,7 @@ Add Dependencies
 
 dependencies:
 # other dependencies
+- base           >= 4.7 && < 5
 - servant        == 0.16.2
 - servant-server == 0.16.2
 - aeson          == 1.4.6.0
