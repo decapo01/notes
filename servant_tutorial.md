@@ -27,9 +27,8 @@ servant-demo
 
 Add Dependencies
 ----------------
-
+`package.yaml`
 ```yaml
-# package.yaml
 
 dependencies:
 # other dependencies
