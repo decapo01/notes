@@ -4,10 +4,26 @@ Servant Tutorial
 ================
 Dec 06 2019
 
+Stack Version 2.1.3
+
 Installation
 ------------
+```
+> stack new servant-demo
+```
 
-`stack new servant-demo`
+File Structure (pertinent files only)
+--------------------------
+
+```
+servant-demo
+|- package.yaml
+|- app
+|  |- Main.hs
+|- src
+   |- Lib.hs
+   |- Users.hs
+```
 
 Add Dependencies
 ----------------
@@ -17,24 +33,22 @@ Add Dependencies
 
 dependencies:
 # other dependencies
-- servant
-- servant-server
-- aeson               
-- wai                 
-- warp 
+- servant        == 0.16.2
+- servant-server == 0.16.2
+- aeson          == 1.4.6.0
+- wai            == 3.2.2.1
+- warp           == 3.2.28 
 ```
 
 Getting a List of Users
 -----------------------
 
-TLDR here's the final code
-
 `src/Users.hs`
 ```haskell
-{-# LANGUAGE DataKinds #-}
-{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE TypeOperators     #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric     #-}
 module Users where
 
 import Servant
@@ -43,7 +57,6 @@ import Data.Aeson
 
 type API
   = "users" :> Get '[JSON][User]
-
 
 data User = User
   { userId    :: String
@@ -57,15 +70,16 @@ instance ToJSON User where
            , "userEmail" .= userEmail
            ]
 
-
-users :: Handler [User]
-users = 
-  return 
+users =
   [ User "1" "bill"
   , User "2" "pam"
   ]
 
-api = users
+usersHandler :: Handler [User]
+usersHandler = 
+  return users
+
+api = usersHandler
 
 usersProxy :: Proxy API
 usersProxy = Proxy
@@ -97,7 +111,21 @@ main :: IO ()
 main = someFunc
 ```
 
-Try `curl http://localhost:8081/users` or enter that into the url of the browser and you should see
+Running
+-------
+
+run `stack run` on the command line in root project directory
+
+```console
+> stack run
+```
+
+Try curl or enter that into the url of the browser
+
+```curl
+> curl http://localhost:8081/users
+```
+and you should see something like
 ```json
 [{"userId":"1","userEmail":"bill"},{"userId":"2","userEmail":"pam"}]
 ```
