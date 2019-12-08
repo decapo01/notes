@@ -12,6 +12,10 @@ Installation
 > stack new servant-demo
 ```
 
+LTS Version
+-----------
+lts-14.16
+
 File Structure (pertinent files only)
 --------------------------
 
