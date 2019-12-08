@@ -6,8 +6,8 @@ Dec 8th 2019
 ghci 8.6.5
 
 
-With Maybe
-----------
+With Maybe and Either
+---------------------
 Don't overlook the `runMaybeT`
 ```haskell
 import Control.Monad.IO.Class
