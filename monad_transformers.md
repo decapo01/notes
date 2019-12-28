@@ -48,3 +48,34 @@ main = do
   msg2 <- doEither eitherIO1 eitherIO2
   putStrLn $ show msg2
 ```
+
+ExceptT with Guards
+-------------------
+
+```haskell
+type Login  = LoginReq  -> IO (Either Text AuthToken)
+
+data LoginReq = 
+  LoginReq
+  { loginReqDto     :: LoginDto
+  , ipAddress       :: Text
+  , findAttempts    :: Text -> IO (Either Text [LoginAttempt])
+  , findUserByEmail :: Text -> IO (Either Text (Maybe User))
+  , matchPassword   :: Text -> Text -> Bool
+  }
+
+login :: Login
+login req@LoginReq{..} = runExceptT $ do
+  loginAttempts <- ExceptT $ findAttempts ipAddress
+  guard $ (Prelude.length loginAttempts) > 10 -- figure out how to throw error here
+  userOpt       <- ExceptT $ findUserByEmail $ loginReqDto...loginDtoEmail
+  case userOpt of
+    Nothing -> throwE "User not found"
+    Just u  ->
+      if matchPassword (loginReqDto...loginDtoPass) (u...userPass)
+        then
+          return $ AuthToken "todo"
+        else
+          -- add inserting login attempt
+          throwE "Passwords do not match"
+```
